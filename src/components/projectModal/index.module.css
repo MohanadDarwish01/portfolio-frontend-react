@@ -1,0 +1,115 @@
+#modal{
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1000;
+    
+
+
+    #swiperPro{
+
+        width: 80%;
+        height: 90vh;
+        margin: auto;
+        overflow: auto;
+
+        @media screen and (max-width:768px) {
+            height: 80vh;
+        }
+
+        &::-webkit-scrollbar{
+            width: 10px;
+
+            @media screen and (max-width:425px) {
+                width: 0;
+            }
+        
+        }
+        
+        &::-webkit-scrollbar-track {
+            /* background:initial; */
+            background-color: var(--darker);
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--dark);
+            border-radius: 10px;
+        }
+        
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: var(--yellow);
+        }
+
+        @media screen and (max-width:425px) {
+            width: 100%;
+        }
+        
+        
+        .slideStyle{
+
+            display: flex ;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 300;
+            background:initial;
+
+            img{
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+            }
+            
+        
+           
+        }
+    }
+
+  
+}
+
+#closeBtn{
+    position: absolute;
+    top: 0;
+    left: calc(5% + 30px /2) ;
+    text-align: center;
+    color: aliceblue;
+
+
+    @media screen and (min-width:1024px) and (max-width:1440px) {
+        left: calc(4% + 30px /2) ;
+    }
+
+    @media screen and (min-width:769px) and (max-width:1023px) {
+        left: calc(2.5% + 30px /2) ;
+    }
+
+    @media screen and (min-width:426px) and (max-width:768px) {
+        right: 10%; 
+        left: auto;
+        top: -60px;
+    }
+
+    @media screen and (max-width:425px) {
+        right: 5%; 
+        left: auto;
+        top: -60px;
+    }
+
+    .close{
+        font-size: 30px;
+        color: var(--white);
+
+
+        @media screen and (max-width:768px) {
+            font-size: 50px;
+        }
+    }
+
+}
+

@@ -1,0 +1,194 @@
+#ServicesSec {
+    padding-block: 100px;
+    /* background-color: var(--dark); */
+
+    #title {
+        text-align: center;
+        position: relative;
+        margin-top: -5px;
+        margin-bottom: 80px;
+        z-index: 1;
+
+
+        h4 {
+            font-size: 24px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--yellow);
+            position: relative;
+            z-index: 10;
+            letter-spacing: 1px;
+
+            &::before {
+                content: "";
+                position: absolute;
+                background-color: var(--white);
+                border-radius: 1px;
+                width: 170px;
+                height: 2px;
+                bottom: -16px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                background-color: var(--yellow);
+                width: 70px;
+                height: 6px;
+                border-radius: 3px;
+                bottom: -18px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        h2 {
+            text-transform: uppercase;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 90px;
+            font-weight: 700;
+            color: var(--yellow);
+            opacity: 0.05;
+            margin: 0;
+            margin-top: -17px;
+            width: 100%;
+
+
+            @media screen and (max-width:650px) {
+
+                font-size: 50px;
+            }
+        }
+    }
+}
+
+
+#resume {
+
+    display: flex;
+    align-items: center;
+
+    #resumeIcon {
+        font-size: 34px;
+        color: var(--yellow);
+    }
+
+    h2 {
+        font-size: 30px;
+        font-weight: 400;
+        margin-left: 30px;
+        color: var(--white);
+        margin-bottom: 0;
+    }
+}
+
+
+#allEdu {
+    margin-top: 50px;
+    padding-left: 40px;
+    margin-left: 20px;
+    border-left: 1px solid var(--yellow);
+
+
+    #diploma {
+        position: relative;
+        margin: 50px 0;
+
+
+        @media screen and (max-width:575px) {
+            padding-right: 30px;
+        }
+
+        &::before {
+            position: absolute;
+            margin: 9px 0;
+            content: "";
+            border: 2px solid var(--yellow);
+            border-radius: 50%;
+            background-color: var(--dark);
+            width: 13px;
+            height: 13px;
+            top: 0px;
+            left: -47px;
+            transition: all 0.4s ease;
+
+
+        }
+
+        &:hover::before {
+            background-color: var(--yellow);
+
+        }
+
+
+        h3 {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--yellow);
+            margin-top: -7px;
+            margin-bottom: 8px;
+
+
+            @media screen and (max-width:500px) {
+
+                font-size: 20px;
+            }
+        }
+
+        h6 {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 21px;
+
+            @media screen and (max-width:500px) {
+
+                font-size: 14px;
+            }
+        }
+
+        h4 {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 21px;
+
+            @media screen and (max-width:500px) {
+
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            p {
+                font-size: 20px;
+                color: var(--gray);
+                margin-top: 10px;
+
+                @media screen and (max-width:500px) {
+
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+            }
+        }
+
+        p {
+
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--white);
+            margin-bottom: 21px;
+
+            @media screen and (max-width:500px) {
+
+                font-size: 12px;
+            }
+        }
+    }
+
+}

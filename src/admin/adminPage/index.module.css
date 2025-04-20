@@ -1,0 +1,120 @@
+.dashboard {
+
+    display: flex;
+    min-height: 100vh;
+
+    .listDs {
+        width: 450px;
+        padding: 40px 20px;
+        color: white;
+        font-size: 18px;
+        background-color: var(--darker);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+
+        .top {
+
+            .header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-right: 20px;
+
+                img {
+                    height: 50PX;
+                    margin-left: 40px;
+                }
+
+                button {
+                    svg {
+                        font-size: 30px;
+                    }
+                }
+            }
+
+            ul {
+                list-style: none;
+                padding-right: 20px;
+
+
+                .active {
+                    background-color: var(--yellow);
+                    color: var(--darker);
+
+                    &:hover {
+                        background-color: var(--yellow);
+                        color: var(--darker);
+                    }
+                }
+
+                p {
+                    font-size: 16px;
+                    text-transform: uppercase;
+                    color: var(--dark);
+                }
+
+                li {
+                    padding: 10px 20px;
+                    width: 100%;
+                    cursor: pointer;
+                    background-color: var(--dark);
+                    border-radius: 30px;
+                    margin-bottom: 1rem;
+                    transition: 0.4s ease-in-out;
+
+
+                    &:hover {
+                        background-color: var(--midDark);
+                        color: var(--white);
+                    }
+                }
+            }
+        }
+
+
+        .footer {
+            padding: 0 20px 0 32px;
+
+            p {
+                font-size: 16px;
+                text-transform: uppercase;
+                color: var(--dark);
+            }
+
+            .userInfo {
+
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                img {
+                    width: 50px;
+                    height: 50px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+
+                h4 {
+                    font-size: 20px;
+                    text-transform: capitalize;
+                    color: var(--white);
+                    margin: 0;
+                }
+
+                h5 {
+                    font-size: 14px;
+                    text-transform: capitalize;
+                    color: var(--white);
+                    opacity: 0.5;
+                    margin: 0;
+                }
+            }
+        }
+
+
+    }
+}

@@ -1,0 +1,228 @@
+#heroContent {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    /* background: var(--black) url('../../assets/heroBg.jpg')  center/cover; */
+
+    div {
+
+        h1 {
+            font-size: 60px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: capitalize;
+            color: var(--white);
+
+            span {
+                color: var(--yellow);
+
+            }
+
+            @media screen and (max-width:425px) {
+                padding-inline: 10px;
+                font-size: 32px;
+                height: 70px;
+
+            }
+
+            @media screen and (min-width:426px) and (max-width:768px) {
+                padding-inline: 10px;
+                font-size: 32px;
+
+            }
+
+
+        }
+
+        p {
+            font-size: 16px;
+            font-weight: 200;
+            color: var(--white);
+
+
+            @media screen and (max-width:425px) {
+                font-size: 14px;
+
+            }
+        }
+
+        .card {
+            width: fit-content;
+            height: fit-content;
+            background-color: transparent;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            gap: 20px;
+
+
+            .socialContainer {
+                width: 45px;
+                height: 45px;
+                color: var(--dark);
+                background-color: var(--yellow);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                transition-duration: 0.3s;
+                border-radius: 30px;
+                
+                animation: wheel 4s linear alternate;
+
+
+                @media screen and (max-width:425px) {
+                    width: 25px;
+                    height: 25px;
+
+                }
+
+
+                @media screen and (min-width:426px) and (max-width:768px) {
+                    width: 35px;
+                    height: 35px;
+                }
+
+
+
+             
+
+                &:active {
+                    transform: scale(0.9);
+                    transition-duration: 0.3s;
+                }
+
+                .socialSvg {
+                    font-size: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+
+                    @media screen and (max-width:425px) {
+                        font-size: 16px;
+
+                    }
+
+                    @media screen and (min-width:426px) and (max-width:768px) {
+                        font-size: 20px;
+                    }
+
+
+                }
+
+
+                &:hover {
+                    transition-duration: 0.9s;
+                    transform: scale(1.2) rotate(360deg);
+
+                    .icon {
+                        color: var(--white);
+                    }
+                }
+
+
+
+
+
+            }
+
+
+            .containerOne:hover {
+                background-color: #0a66c2;
+                transition-duration: 0.3s;
+
+
+            }
+
+            .containerTwo:hover {
+                background-color: #060606;
+                transition-duration: 0.3s;
+                /* transform: scale(1.2); */
+            }
+
+            .containerThree:hover {
+                background-color: #0866ff;
+                transition-duration: 0.3s;
+                /* transform: scale(1.2); */
+            }
+
+            .containerFour:hover {
+                background-color: #fe2c55;
+                transition-duration: 0.3s;
+                /* transform: scale(1.2); */
+            }
+
+            .containerFive:hover {
+                background: linear-gradient(30deg, rgba(255, 197, 9, 1) 0%, rgba(254, 113, 23, 1) 27%, rgba(255, 21, 80, 1) 47%, rgba(255, 8, 146, 1) 67%, rgba(132, 20, 255, 1) 100%);
+                transition-duration: 0.3s;
+                /* transform: scale(1.2); */
+            }
+
+            .containerSix:hover {
+                background-color: #25d366;
+                transition-duration: 0.3s;
+                /* transform: scale(1.2); */
+            }
+        }
+
+
+    }
+
+
+
+
+
+
+
+    #designerImg {
+        height: 190px;
+        width: 190px;
+        border-radius: 50%;
+        border: 6px solid rgba(255, 255, 255, 0.1);
+        margin: auto;
+        margin-bottom: 25px;
+
+
+        img {
+            border-radius: inherit;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    #coverImg {
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        /* opacity: 0.8; */
+    }
+
+
+
+}
+
+
+
+
+@keyframes wheel {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-1080deg);
+    }
+}

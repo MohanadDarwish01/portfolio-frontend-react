@@ -1,0 +1,190 @@
+#ServicesSec {
+    padding-block: 100px;
+    /* background-color: var(--dark); */
+
+    #title {
+        text-align: center;
+        position: relative;
+        margin-top: -5px;
+        margin-bottom: 80px;
+        z-index: 1;
+
+
+        h4 {
+            font-size: 24px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--yellow);
+            position: relative;
+            z-index: 10;
+            letter-spacing: 1px;
+
+            &::before {
+                content: "";
+                position: absolute;
+                background-color: var(--white);
+                border-radius: 1px;
+                width: 170px;
+                height: 2px;
+                bottom: -16px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                background-color: var(--yellow);
+                width: 70px;
+                height: 6px;
+                border-radius: 3px;
+                bottom: -18px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        h2 {
+            text-transform: uppercase;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 90px;
+            font-weight: 700;
+            color: var(--yellow);
+            opacity: 0.05;
+            margin: 0;
+            margin-top: -17px;
+            width: 100%;
+
+
+            @media screen and (max-width:650px) {
+            
+                font-size: 50px;
+            }
+        }
+    }
+}
+
+
+#content {
+
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 15px;
+    margin-bottom: 30px;
+
+    div {
+        padding: 0 10px;
+        margin-bottom: 20px;
+        height: 350px;
+        display: flex;
+        justify-content: center;
+
+        @media screen and (max-width:575px) {
+            
+            height: 260px;
+        }
+
+
+        #card {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            padding: 50px 30px;
+            border-radius: 3px;
+            transition: all 0.4s ease;
+            border: 1px solid var(--gray);
+            background-color: var(--midDark);
+            cursor: pointer;
+
+            @media screen and (max-width:575px) {
+            
+                padding: 15px 20px;
+            }
+
+            #icon {
+                width: 90px;
+                height: 90px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 0.5px solid var(--gray);
+                border-radius: 50%;
+                background-color: var(--darker);
+                margin-bottom: 28px;
+                transition: all 0.4s ease;
+
+                /* @media screen and (max-width:575px) {
+            
+                    width: 60px;
+                    height: 60px;                
+                } */
+
+                img {
+                    width: 52px;
+                    transition: all 0.4s ease;
+
+                    
+                    /* @media screen and (max-width:575px) {
+            
+                        width: 30px;          
+                    } */
+    
+                }
+
+            }
+
+            h2 {
+                font-size: 20px;
+                font-weight: 500;
+                margin-bottom: 16px;
+                color: var(--white);
+                transition: all 0.4s ease;
+
+
+                @media screen and (max-width:575px) {
+            
+                    font-size: 16px;
+                }
+            }
+
+            p {
+                height: 70px;
+                font-size: 16px;
+                font-weight: 300;
+                color: var(--white);
+                margin: 0;
+
+                @media screen and (max-width:575px) {
+            
+                    font-size: 12px;
+                }
+            }
+
+            &:hover #icon>img {
+                filter: invert(75%) sepia(80%) saturate(250%) hue-rotate(30deg);
+            }
+
+            &:hover #icon{
+                border: 0.5px solid var(--yellow);
+                box-shadow: 0 0 10px 1px var(--yellow);
+            }
+
+            &:hover h2{
+                color: var(--yellow);
+            }
+
+            &:hover{
+                background-color: var(--darker);
+
+            }
+
+        }
+    }
+
+}

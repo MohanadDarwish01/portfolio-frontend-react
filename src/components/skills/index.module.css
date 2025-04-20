@@ -1,0 +1,713 @@
+#SkillsSec {
+    padding-block: 100px;
+    background-color: var(--midDark);
+
+    #title {
+        text-align: center;
+        position: relative;
+        margin-top: -5px;
+        margin-bottom: 80px;
+        z-index: 1;
+
+        
+
+
+        h4 {
+            font-size: 24px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--yellow);
+            position: relative;
+            z-index: 10;
+            letter-spacing: 1px;
+
+            &::before {
+                content: "";
+                position: absolute;
+                background-color: var(--white);
+                border-radius: 1px;
+                width: 170px;
+                height: 2px;
+                bottom: -16px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                background-color: var(--yellow);
+                width: 70px;
+                height: 6px;
+                border-radius: 3px;
+                bottom: -18px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        h2 {
+            text-transform: uppercase;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 90px;
+            font-weight: 700;
+            color: var(--yellow);
+            opacity: 0.05;
+            margin: 0;
+            margin-top: -17px;
+            width: 100%;
+
+
+            @media screen and (max-width:650px) {
+                font-size: 50px;
+            }
+        }
+    }
+}
+
+
+#content {
+    margin-top: 100px;
+    @media screen and (max-width:575px) {
+        padding-inline: 35px;
+        
+    }
+
+    #skill {
+        position: relative;
+
+        &:nth-child(1){
+
+            @media screen and (max-width:767px) {
+                margin-bottom: 30px;
+            }
+            
+        }
+
+        
+
+       
+
+        p {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--yellow);
+            margin: 0;
+            width: 100%;
+
+            @media screen and (min-width:992px) and (max-width:1199px) {
+                font-size: 20px;
+            }
+
+            @media screen and (min-width:768px) and (max-width:991px) {
+                font-size: 16px;
+            }
+            @media screen and (max-width:575px) {
+                font-size: 16px;
+                
+            }
+
+
+            &::after {
+
+                content: "";
+                position: absolute;
+                background-color: var(--yellow);
+                width: -webkit-fill-available;
+                margin-left: 30px;
+                top: 15px;
+                height: 6px;
+                border-radius: 3px;
+
+                
+
+            }
+
+            &::before {
+                content: "";
+                position: absolute;
+                background-color: var(--gray);
+                width: -webkit-fill-available;
+                margin: 0 30px;
+                top: 15px;
+                height: 6px;
+                border-radius: 3px;
+
+                @media screen and (max-width:767px) {
+                    margin: 0 ;
+                }
+                /* @media screen and (max-width:425px) {
+                    margin-left: 100px;
+                } */
+            }
+
+
+        }
+
+        span {
+            position: absolute;
+            background-color: var(--yellow);
+            width: 15px;
+            height: 15px;
+            top: 10px;
+            border-radius: 50%;
+            
+            
+
+            &:hover::after {
+
+                position: absolute;
+                padding: 5px 10px;
+                background-color: var(--yellow);
+                top: -40px;
+                right: -13px;
+                border-radius: 10px;
+
+            }
+
+        }
+
+
+    }
+
+}
+
+
+
+
+
+/* ============================= photoshop =================================== */
+
+.psTitle::after {
+    animation: ps1 2s ease-in-out forwards;
+}
+
+.psTitle::before {
+    animation: ps2 2s ease-in-out forwards;
+}
+
+.psRate {
+    animation: ps3 2s ease-in-out forwards;
+
+    &:hover::after {
+        content: "80";
+    }
+    
+}
+
+
+@keyframes ps1 {
+
+    0% {
+        margin-right: 400px;
+
+       
+    }
+
+    100% {
+        margin-right: 10%;
+      
+
+    }
+}
+
+
+@keyframes ps2 {
+
+    0% {
+        right: 700px;
+        margin-left: 160px;
+       
+    }
+
+    100% {
+        right: 0;
+        margin-left: 160px;
+       
+    }
+}
+
+
+@keyframes ps3 {
+
+    0% {
+        right: 400px;
+        opacity: 0;
+
+        
+    }
+
+    20% {
+        opacity: 0;
+    }
+
+    100% {
+        right: 10%;
+        opacity: 1;
+
+    }
+}
+
+
+
+/* ============================= ilustrator =================================== */
+
+.aiTitle::after {
+    animation: ai1 2s ease-in-out forwards;
+}
+
+.aiTitle::before {
+    animation: ai2 2s ease-in-out forwards;
+}
+
+.aiRate {
+    animation: ai3 2s ease-in-out forwards;
+
+    &:hover::after {
+        content: "88";
+    }
+}
+
+
+@keyframes ai1 {
+
+    0% {
+        margin-right: 400px;
+    }
+
+    100% {
+        margin-right: 8%;
+
+    }
+}
+
+
+@keyframes ai2 {
+
+    0% {
+        right: 700px;
+        margin-left: 160px;
+       
+    }
+
+    100% {
+        right: 0;
+        margin-left: 160px;
+    }
+}
+
+
+@keyframes ai3 {
+
+    0% {
+        right: 400px;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0;
+    }
+
+    100% {
+        right: 8%;
+        opacity: 1;
+    }
+}
+
+
+
+
+
+/* ============================= HTML =================================== */
+
+.htmlTitle::after {
+    animation: html1 2s ease-in-out forwards;
+}
+
+.htmlTitle::before {
+    animation: html2 2s ease-in-out forwards;
+}
+
+.htmlRate {
+    animation: html3 2s ease-in-out forwards;
+
+    &:hover::after {
+        content: "95";
+    }
+}
+
+
+@keyframes html1 {
+
+    0% {
+        margin-right: 400px;
+    }
+
+    100% {
+        margin-right: 7%;
+
+    }
+}
+
+
+@keyframes html2 {
+
+    0% {
+        right: 700px;
+        margin-left: 160px;
+       
+    }
+
+    100% {
+        right: 0;
+        margin-left: 160px;
+    }
+}
+
+
+@keyframes html3 {
+
+    0% {
+        right: 400px;
+        opacity: 0;
+    }
+    20% {
+        opacity: 0;
+    }
+
+    100% {
+        right: 7%;
+        opacity: 1;
+
+    }
+}
+
+
+
+/* ============================= css =================================== */
+
+.cssTitle::after {
+    animation: css1 2s ease-in-out forwards;
+}
+
+.cssTitle::before {
+    animation: css2 2s ease-in-out forwards;
+}
+
+.cssRate {
+    animation: css3 2s ease-in-out forwards;
+
+    &:hover::after {
+        content: "98";
+    }
+}
+
+
+@keyframes css1 {
+
+    0% {
+        margin-right: 400px;
+    }
+
+    100% {
+        margin-right: 6%;
+
+    }
+}
+
+
+@keyframes css2 {
+
+    0% {
+        right: 700px;
+        margin-left: 160px;
+       
+    }
+
+    100% {
+        right: 0;
+        margin-left: 160px;
+    }
+}
+
+
+@keyframes css3 {
+
+    0% {
+        right: 400px;
+        opacity: 0;
+    }
+    20% {
+        opacity: 0;
+    }
+
+    100% {
+        right: 6%;
+        opacity: 1;
+    }
+}
+
+
+/* ============================= js =================================== */
+
+.jsTitle::after {
+    animation: js1 2s ease-in-out forwards;
+}
+
+.jsTitle::before {
+    animation: js2 2s ease-in-out forwards;
+}
+
+.jsRate {
+    animation: js3 2s ease-in-out forwards;
+
+    &:hover::after {
+        content: "75";
+    }
+}
+
+
+@keyframes js1 {
+
+    0% {
+        margin-right: 400px;
+    }
+
+    100% {
+        margin-right: 13%;
+
+    }
+}
+
+
+@keyframes js2 {
+
+    0% {
+        right: 700px;
+        margin-left: 160px;
+       
+    }
+
+    100% {
+        right: 0;
+        margin-left: 160px;
+    }
+}
+
+
+@keyframes js3 {
+
+    0% {
+        right: 400px;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0;
+    }
+
+    100% {
+        right: 13%;
+        opacity: 1;
+    }
+}
+
+
+
+
+/* ============================= React =================================== */
+
+.reactTitle::after {
+    animation: react1 2s ease-in-out forwards;
+}
+
+.reactTitle::before {
+    animation: react2 2s ease-in-out forwards;
+}
+
+.reactRate {
+    animation: react3 2s ease-in-out forwards;
+
+    &:hover::after {
+        content: "78";
+    }
+}
+
+
+@keyframes react1 {
+
+    0% {
+        margin-right: 400px;
+    }
+
+    100% {
+        margin-right: 12%;
+
+    }
+}
+
+
+@keyframes react2 {
+
+    0% {
+        right: 700px;
+        margin-left: 160px;
+       
+    }
+
+    100% {
+        right: 0;
+        margin-left: 160px;
+    }
+}
+
+
+@keyframes react3 {
+
+    0% {
+        right: 400px;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0;
+    }
+
+    100% {
+        right: 12%;
+        opacity: 1;
+    }
+}
+
+
+
+
+/* ============================= xd =================================== */
+
+.xdTitle::after {
+    animation: xd1 2s ease-in-out forwards;
+}
+
+.xdTitle::before {
+    animation: xd2 2s ease-in-out forwards;
+}
+
+.xdRate {
+    animation: xd3 2s ease-in-out forwards;
+
+    &:hover::after {
+        content: "90";
+    }
+}
+
+
+@keyframes xd1 {
+
+    0% {
+        margin-right: 400px;
+    }
+
+    100% {
+        margin-right: 8%;
+
+    }
+}
+
+
+@keyframes xd2 {
+
+    0% {
+        right: 700px;
+        margin-left: 160px;
+       
+    }
+
+    100% {
+        right: 0;
+        margin-left: 160px;
+    }
+}
+
+
+@keyframes xd3 {
+
+    0% {
+        right: 400px;
+        opacity: 0;
+    }
+    20% {
+        opacity: 0;
+    }
+    100% {
+        right: 8%;
+        opacity: 1;
+    }
+}
+
+
+/* ============================= figma =================================== */
+
+.figmaTitle::after {
+    animation: figma1 2s ease-in-out forwards;
+}
+
+.figmaTitle::before {
+    animation: figma2 2s ease-in-out forwards;
+}
+
+.figmaRate {
+    animation: figma3 2s ease-in-out forwards;
+
+    &:hover::after {
+        content: "90";
+    }
+}
+
+
+@keyframes figma1 {
+
+    0% {
+        margin-right: 400px;
+    }
+
+    100% {
+        margin-right: 8%;
+
+    }
+}
+
+
+@keyframes figma2 {
+
+    0% {
+        right: 700px;
+        margin-left: 160px;
+       
+    }
+
+    100% {
+        right: 0;
+        margin-left: 160px;
+    }
+}
+
+
+@keyframes figma3 {
+
+    0% {
+        right: 400px;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0;
+    }
+
+    100% {
+        right: 8%;
+        opacity: 1;
+    }
+}
