@@ -1,44 +1,55 @@
 import style from './information.module.css'
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldArray, useFormik, useFormikContext } from "formik";
 import axios from 'axios';
 import { GrUploadOption } from "react-icons/gr";
-import { useRef, useState } from 'react';
-import { MdOutlineAddPhotoAlternate } from 'react-icons/md';
+import { useEffect, useRef, useState } from 'react';
+import { MdDelete, MdOutlineAddPhotoAlternate, MdOutlineDelete } from 'react-icons/md';
 import { FaFilePdf } from 'react-icons/fa6';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { RiResetLeftLine } from 'react-icons/ri';
-import { useDomain, useLoader } from '../../../../store';
+import { useDomain, useInformation, useLoader } from '../../../../store';
 import Swal from 'sweetalert2';
 import Loader from '../../../../components/loader';
 
 const validationSchema = Yup.object({
     logo: Yup.mixed()
-        .test("fileSize", "File too large. Max size is 2MB", value =>
-            value ? value.size <= 2 * 1024 * 1024 : false
-        )
-        .test(
-            'fileFormat',
-            'Unsupported Format',
-            value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type)
-        ).required('A file is required'),
+        .test("fileSize", "File too large. Max size is 2MB", value => {
+            if (!value) return false; // handles null/undefined
+            if (typeof value === 'number') return true; // skip validation for initial ID
+            return value.size <= 2 * 1024 * 1024;
+        })
+        .test('fileFormat', 'Unsupported Format', value => {
+            if (!value) return false;
+            if (typeof value === 'number') return true; // skip validation for initial ID
+            return ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type);
+        })
+        .required('A file is required'),
     resume: Yup.mixed()
-        .test("fileSize", "File too large. Max size is 2MB", value =>
-            value ? value.size <= 2 * 1024 * 1024 : false
-        )
-        .test("fileFormat", "Unsupported Format", value =>
-            value ? value.type === "application/pdf" : false
-        ).required("A file is required"),
+        .test("fileSize", "File too large. Max size is 2MB", value => {
+            if (!value) return false; // handles null/undefined
+            if (typeof value === 'number') return true; // skip validation for initial ID
+            return value.size <= 2 * 1024 * 1024;
+        })
+        .test('fileFormat', 'Unsupported Format', value => {
+            if (!value) return false;
+            if (typeof value === 'number') return true; // skip validation for initial ID
+            return "application/pdf".includes(value.type);
+        })
+        .required('A file is required'),
 
     profile: Yup.mixed()
-        .test("fileSize", "File too large. Max size is 2MB", value =>
-            value ? value.size <= 2 * 1024 * 1024 : false
-        )
-        .test(
-            'fileFormat',
-            'Unsupported Format',
-            value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type)
-        ).required('A file is required'),
+        .test("fileSize", "File too large. Max size is 2MB", value => {
+            if (!value) return false; // handles null/undefined
+            if (typeof value === 'number') return true; // skip validation for initial ID
+            return value.size <= 2 * 1024 * 1024;
+        })
+        .test('fileFormat', 'Unsupported Format', value => {
+            if (!value) return false;
+            if (typeof value === 'number') return true; // skip validation for initial ID
+            return ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type);
+        })
+        .required('A file is required'),
     userName: Yup.string().required("Required"),
     titles: Yup.array().of(Yup.string().required("Required")),
     description: Yup.string().required("Required"),
@@ -58,7 +69,7 @@ const validationSchema = Yup.object({
 
 
 export default function Profile() {
-    
+    const { information } = useInformation();
     const { domain } = useDomain();
     const [logoAc, setLogoAc] = useState(null);
     const [resumeAc, setResumeAc] = useState(null);
@@ -71,123 +82,139 @@ export default function Profile() {
     const platforms = ['Linkedin', 'Github', 'Facebook', 'Tiktok', 'Instagram', 'Whatsapp number (20  01117521556)']
     const { loader_index, open_loader, close_loader } = useLoader();
 
-    const initialValues = {
-        logo: null,
-        resume: null,
-        profile: null,
-        userName: "",
-        titles: [...titles],
-        description: "",
-        links: [...links],
-        from: "",
-        to: "",
-    }
 
+
+    const initialValues = {
+        logo: information?.logo?.id || null,
+        resume: information?.resume?.id || null,
+        profile: information?.profile_pic?.id || null,
+        userName: information?.admin_name || "",
+        titles: information?.job_titles || [...titles],
+        description: information?.short_description || "",
+        links: information?.platforms || [...links],
+        from: information?.start_date || "",
+        to: information?.end_date || "",
+    }
 
 
 
 
     return (
         <div id={style.section}>
-            {/* {loader_index && <div className={style.loader}><Loader /></div> } */}
             <Formik
 
+
+                enableReinitialize={true}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setSubmitting }) => {
-                    open_loader();
+
                     setSubmitting(true);
-                    console.log(values)
-                    const formData = new FormData();
-                    let uploaded = []; // 👈 Declare it here so it's accessible later
-                    
-                    if (values.logo) {
-                        const logoUpload = formData.append('files', values.logo);
-                        uploaded.push(logoUpload);
-                    }
-
-                    if (values.resume) {
-                        const resumeUpload = formData.append('files', values.resume);
-                        uploaded.push(resumeUpload);
-                    }
-
-                    if (values.profile) {
-                        const profileUpload = formData.append('files', values.profile); 
-                        uploaded.push(profileUpload);
-                    }
-
-                   
-
+                    open_loader();
                     try {
-                        const response = await fetch('http://localhost:1337/api/upload', {
-                            method: 'POST',
-                            body: formData,
-                        });
 
-                        const result = await response.json();
-                        // console.log('Uploaded files:', result);
-                        uploaded = result; // 👈 Assign the result here
+
+
+                        let uploadedFiles = {};
+                        if (logoAc || resumeAc || profileAc) {
+
+                            const formData = new FormData();
+                            const uploadedIndexes = [];
+                            if (values.logo && values.logo instanceof File) {
+                                formData.append('files', values.logo);
+                                uploadedIndexes.push('logo');
+                            }
+                            if (values.resume && values.resume instanceof File) {
+                                formData.append('files', values.resume);
+                                uploadedIndexes.push('resume');
+                            }
+                            if (values.profile && values.profile instanceof File) {
+                                formData.append('files', values.profile);
+                                uploadedIndexes.push('profile_pic');
+                            }
+
+
+
+                            try {
+                                const uploadResponse = await axios.post(
+                                    `${domain}/api/upload/`,
+                                    formData,
+                                    {
+                                        headers: {
+                                            'Content-Type': 'multipart/form-data',
+                                        },
+                                    }
+                                );
+
+                                const responseData = uploadResponse.data; // Assume it's an array of uploaded files
+
+                                uploadedIndexes.forEach((key, index) => {
+                                    uploadedFiles[key] = responseData[index]?.id || null;
+                                });
+
+                                console.log('Uploaded files:', uploadedFiles);
+
+                            } catch (uploadError) {
+                                console.error('Upload failed:', uploadError.response?.data || uploadError.message);
+                                throw new Error('File upload failed');
+                            }
+                        }
+
+                        const data = {
+                            logo: uploadedFiles?.logo || information?.logo?.id || null,
+                            resume: uploadedFiles?.resume || information?.resume?.id || null,
+                            profile_pic: uploadedFiles?.profile_pic || information?.profile_pic?.id || null,
+                            admin_name: values.userName,
+                            job_titles: values.titles,
+                            short_description: values.description,
+                            platforms: values.links,
+                            start_date: values.from,
+                            end_date: values.to,
+                        };
+
+
+                        try {
+                            const response = await axios.put(
+                                `${domain}/api/user-informations/epefy7x35ocbnfqlk48uo1l1`,
+                                { data },
+                                {
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    }
+                                }
+                            );
+
+                            console.log('Success:', response.data);
+                        }
+                        catch (submitError) {
+                            console.error('Submission failed:', {
+                                status: submitError.response?.status,
+                                data: submitError.response?.data,
+                                message: submitError.message
+                            });
+                            throw new Error('Form submission failed');
+                        }
                     } catch (err) {
-                        console.error('Upload error:', err);
+                        console.error('Error:', err);
                     }
 
 
+                    setSubmitting(false);
 
-                    // console.log(result)
-                    let data = {
-                        logo: uploaded[0]?.id,
-                        resume: uploaded[1]?.id,
-                        profile_pic: uploaded[2]?.id,
-                        admin_name: values.userName,
-                        job_titles: values.titles,
-                        short_description: values.description,
-                        platforms: values.links,
-                        start_date: values.from,
-                        end_date: values.to,
+                    Swal.fire({
+                        icon: "success",
+                        text: "Submit Success",
+                        timer: 1500
 
+                    })
+                    window.location.reload();
+                    close_loader();
 
-
-                    }
-
-
-
-
-                    setTimeout(() => {
-
-
-                        let endPoint = "/api/user-informations/";
-                        let url = domain + endPoint;
-
-                        axios.put(url + "epefy7x35ocbnfqlk48uo1l1", {
-                            data: data,
-                        })
-                            .then((res) => {
-                                console.log('Updated record:', res.data);
-                            })
-                            .catch((err) => {
-                                console.error('Error updating record:', err);
-                            })
-
-
-                        setSubmitting(false);
-                        Swal.fire({
-                            icon: "success",
-                            text: "Submit Success",
-                            timer: 1500
-
-                        })
-                        // navegate('/services')
-                        close_loader();
-
-                    }, 500);
                 }}
-
             >
 
-                {({ values, setFieldValue, errors, handleChange, touched }) => (
+                {({ values, setFieldValue, errors, touched, dirty, isValid }) => (
                     <Form className=' p-3 d-flex flex-column justify-content-between h-100' >
-
-
                         <div>
                             <div id={style.imgsForm}>
                                 <div className=' position-relative d-flex flex-column justify-content-between h-100'>
@@ -196,17 +223,26 @@ export default function Profile() {
 
                                         <div>
                                             {
-                                                logoAc ?
+                                                logoAc ? (
                                                     <img src={URL.createObjectURL(logoAc)} alt="" />
-                                                    :
+                                                ) : information.logo ? (
+                                                    <img src={domain + information.logo.url} alt="" />
+                                                ) : (
                                                     <MdOutlineAddPhotoAlternate className={style.addIcon} />
+                                                )
                                             }
+
+                                            
                                         </div>
+
+
+
+
 
                                         <label htmlFor="logo"><GrUploadOption className={style.uploadIcon} />
                                             <input
                                                 id="logo"
-                                                
+
                                                 name='logo'
                                                 type="file"
                                                 accept="image/*"
@@ -216,7 +252,6 @@ export default function Profile() {
                                                     setLogoAc(file);
                                                     setFieldValue("logo", file)
                                                     console.log(values.logo)
-
                                                 }}
                                             />
 
@@ -234,11 +269,13 @@ export default function Profile() {
 
                                         <div>
                                             {
-                                                resumeAc ?
+                                                resumeAc || information.resume ?
                                                     <FaFilePdf className={style.pdfIcon} />
                                                     :
                                                     <MdOutlineAddPhotoAlternate className={style.addIcon} />
                                             }
+
+
                                         </div>
 
                                         <label htmlFor="resume"><GrUploadOption className={style.uploadIcon} />
@@ -274,10 +311,13 @@ export default function Profile() {
 
                                         <div>
                                             {
-                                                profileAc ?
+                                                profileAc ? (
                                                     <img src={URL.createObjectURL(profileAc)} alt="" />
-                                                    :
+                                                ) : information.profile_pic ? (
+                                                    <img src={domain + information.profile_pic.url} alt="" />
+                                                ) : (
                                                     <MdOutlineAddPhotoAlternate className={style.addIcon} />
+                                                )
                                             }
                                         </div>
 
@@ -383,12 +423,12 @@ export default function Profile() {
 
                                     <div className=' d-flex gap-3'>
                                         <div className={style.textInputWrapper}>
-                                            <Field name="from" id="from" className={style.textInput} placeholder="" />
+                                            <Field type="number" name="from" id="from" className={style.textInput} placeholder="" />
                                             <label htmlFor="from" className={style.textLabel} >Start year <span className=" text-warning">*</span></label>
                                             <ErrorMessage name="from" component="div" className={style.textError} />
                                         </div>
                                         <div className={style.textInputWrapper}>
-                                            <Field name="to" id="to" className={style.textInput} placeholder="" />
+                                            <Field type="number" name="to" id="to" className={style.textInput} placeholder="" />
                                             <label htmlFor="to" className={style.textLabel} >End year <span className=" text-warning">*</span></label>
                                             <ErrorMessage name="to" component="div" className={style.textError} />
                                         </div>
@@ -433,13 +473,9 @@ export default function Profile() {
                             </div>
                         </div>
                         <div className=' w-100 d-flex flex-row-reverse gap-3'>
-
-                            <button type="submit" className={style.submit} >
+                            <button type="submit" className={` ${!dirty || !isValid ? style.nonSubmit : style.submit}`} disabled={!dirty || !isValid} >
                                 Save
                             </button>
-                            {/* <button type="submit" className={style.reset} >
-                                Reset
-                            </button> */}
                         </div>
 
 

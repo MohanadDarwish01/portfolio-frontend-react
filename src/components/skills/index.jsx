@@ -1,9 +1,19 @@
 import style from './index.module.css';
 import Aos from 'aos';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import RateSkill from './rate';
+import { useDomain } from '../../store';
+import axios from 'axios';
 export default function Skills() {
 
+    const { domain } = useDomain();
+    const [skills, setSkills] = useState();
     useEffect(() => {
+        let endPoint = "/api/skills";
+        let url = domain + endPoint;
+        axios.get(url).then((res) => {
+            setSkills(res.data.data)
+        })
 
         Aos.init({
             duration: 1200, // You can also set a default easing in all animations
@@ -22,55 +32,15 @@ export default function Skills() {
 
 
             <div id={style.content} className=' container' data-aos="fade-down">
+                <div id={style.rate}>
 
-                <div className=' d-flex flex-wrap flex-lg-nowrap  my-5'>
-                    <div id={style.skill} className=' col-12 col-md-6  px-0 px-md-2'>
-                        <p className={style.psTitle}>Photoshop</p>
-                        <span className={style.psRate}></span>
-                    </div>
-                    <div id={style.skill} className=' col-12 col-md-6  px-0 px-md-2 '>
-                        <p className={style.aiTitle}>Illustrator</p>
-                        <span className={style.aiRate}></span>
-                    </div>
+                    {
+                        skills && skills.map((el ) => (                           
+                            <RateSkill key={el.documentId} percentage={el.skill_rate} label={el.skill_name} />
+                        ))
+                    }
+
                 </div>
-
-
-                <div className=' d-flex flex-wrap flex-lg-nowrap my-5'>
-                    <div id={style.skill} className=' col-12 col-md-6  px-0 px-md-2'>
-                        <p className={style.htmlTitle}>HTML</p>
-                        <span className={style.htmlRate}></span>
-                    </div>
-                    <div id={style.skill} className=' col-12 col-md-6  px-0 px-md-2 '>
-                        <p className={style.cssTitle}>CSS</p>
-                        <span className={style.cssRate}></span>
-                    </div>
-                </div>
-
-
-                <div className=' d-flex flex-wrap flex-lg-nowrap my-5'>
-                    <div id={style.skill} className=' col-12 col-md-6  px-0 px-md-2'>
-                        <p className={style.jsTitle}>Java Script</p>
-                        <span className={style.jsRate}></span>
-                    </div>
-                    <div id={style.skill} className=' col-12 col-md-6  px-0 px-md-2 '>
-                        <p className={style.reactTitle}>React</p>
-                        <span className={style.reactRate}></span>
-                    </div>
-                </div>
-
-                <div className=' d-flex flex-wrap flex-lg-nowrap my-5'>
-                    <div id={style.skill} className=' col-12 col-md-6  px-0 px-md-2'>
-                        <p className={style.xdTitle}>XD</p>
-                        <span className={style.xdRate}></span>
-                    </div>
-                    <div id={style.skill} className=' col-12 col-md-6  px-0 px-md-2 '>
-                        <p className={style.figmaTitle}>Figma</p>
-                        <span className={style.figmaRate}></span>
-                    </div>
-                </div>
-
-
-
 
             </div>
 

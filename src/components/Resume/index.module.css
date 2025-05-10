@@ -87,108 +87,114 @@
     }
 }
 
+.block {
+    max-width: 50%;
 
-#allEdu {
-    margin-top: 50px;
-    padding-left: 40px;
-    margin-left: 20px;
-    border-left: 1px solid var(--yellow);
+    @media screen and (max-width:991px) {
+        max-width:none;
+    }
 
-
-    #diploma {
-        position: relative;
-        margin: 50px 0;
-
-
-        @media screen and (max-width:575px) {
-            padding-right: 30px;
-        }
-
-        &::before {
-            position: absolute;
-            margin: 9px 0;
-            content: "";
-            border: 2px solid var(--yellow);
-            border-radius: 50%;
-            background-color: var(--dark);
-            width: 13px;
-            height: 13px;
-            top: 0px;
-            left: -47px;
-            transition: all 0.4s ease;
+    #allEdu {
+        margin-top: 50px;
+        padding-left: 40px;
+        margin-left: 20px;
+        border-left: 1px solid var(--yellow);
 
 
-        }
+        #diploma {
+            position: relative;
+            margin: 50px 0;
 
-        &:hover::before {
-            background-color: var(--yellow);
+            @media screen and (max-width:575px) {
+                padding-right: 30px;
+            }
 
-        }
+            &::before {
+                position: absolute;
+                margin: 9px 0;
+                content: "";
+                border: 2px solid var(--yellow);
+                border-radius: 50%;
+                background-color: var(--dark);
+                width: 13px;
+                height: 13px;
+                top: 0px;
+                left: -47px;
+                transition: all 0.4s ease;
 
 
-        h3 {
-            font-size: 24px;
-            font-weight: 400;
-            color: var(--yellow);
-            margin-top: -7px;
-            margin-bottom: 8px;
+            }
+
+            &:hover::before {
+                background-color: var(--yellow);
+
+            }
 
 
-            @media screen and (max-width:500px) {
+            h3 {
+                font-size: 24px;
+                font-weight: 400;
+                color: var(--yellow);
+                margin-top: -7px;
+                margin-bottom: 8px;
 
+
+                @media screen and (max-width:500px) {
+
+                    font-size: 20px;
+                }
+            }
+
+            h6 {
+                font-size: 18px;
+                font-weight: 400;
+                color: var(--white);
+                margin-bottom: 21px;
+
+                @media screen and (max-width:500px) {
+
+                    font-size: 14px;
+                }
+            }
+
+            h4 {
                 font-size: 20px;
-            }
-        }
-
-        h6 {
-            font-size: 18px;
-            font-weight: 400;
-            color: var(--white);
-            margin-bottom: 21px;
-
-            @media screen and (max-width:500px) {
-
-                font-size: 14px;
-            }
-        }
-
-        h4 {
-            font-size: 20px;
-            font-weight: 400;
-            color: var(--white);
-            margin-bottom: 21px;
-
-            @media screen and (max-width:500px) {
-
-                font-size: 16px;
-                line-height: 24px;
-            }
-
-            p {
-                font-size: 20px;
-                color: var(--gray);
-                margin-top: 10px;
+                font-weight: 400;
+                color: var(--white);
+                margin-bottom: 21px;
 
                 @media screen and (max-width:500px) {
 
                     font-size: 16px;
                     line-height: 24px;
                 }
+
+                p {
+                    font-size: 20px;
+                    color: var(--gray);
+                    margin-top: 10px;
+
+                    @media screen and (max-width:500px) {
+
+                        font-size: 16px;
+                        line-height: 24px;
+                    }
+                }
+            }
+
+            p {
+
+                font-size: 14px;
+                font-weight: 400;
+                color: var(--white);
+                margin-bottom: 21px;
+
+                @media screen and (max-width:500px) {
+
+                    font-size: 12px;
+                }
             }
         }
 
-        p {
-
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--white);
-            margin-bottom: 21px;
-
-            @media screen and (max-width:500px) {
-
-                font-size: 12px;
-            }
-        }
     }
-
 }

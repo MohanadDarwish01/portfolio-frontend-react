@@ -56,21 +56,17 @@ section {
             font-family: "Poppins", Sans-serif;
             font-size: 65px;
             font-weight: 600;
-            width: 110px;
 
             @media screen and (min-width:768px) and (max-width:1024px){
                 font-size: 50px;
-                width: 90px;
             }
             @media screen and (max-width:767px){
                 font-size: 50px;
-                width: auto;
             }
         }
 
         :nth-child(2) {
             margin-left: 30px;
-           width: 120px;
             font-size: 22px;
             font-weight: 500;
             line-height: 28px;
@@ -78,12 +74,10 @@ section {
             @media screen and (min-width:768px) and (max-width:1024px){
                 font-size: 18px;
                 margin-left: 20px;
-                width: 90px;
             }
             @media screen and (max-width:767px){
                 font-size: 18px;
                 margin: 0;
-                width: auto;
             }
         }
     }

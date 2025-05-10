@@ -18,7 +18,6 @@ export default function AboutSec() {
       once: true,
     });
 
-    console.log(information)
   }, []);
 
 

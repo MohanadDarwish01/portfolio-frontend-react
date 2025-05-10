@@ -4,13 +4,13 @@ import axios from "axios";
 import style from "./index.module.css";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdImages } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { RiResetLeftLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
-import { useDomain, useLoader } from "../../store";
+import { useDomain, useInformation, useLoader } from "../../store";
 import { MdError, MdOutlineDelete } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa6";
 import { Slider, Box, Typography, Button, TextField } from '@mui/material';
@@ -30,15 +30,16 @@ const validationSchema = Yup.object({
     platforms: Yup.array().min(1, "Select at least one post type"),
     designsNo: Yup.number().required("Required").max(30, "Designs must 30 or less").positive("Number of designs must be positive counter").integer(),
     deadline: Yup.date().required("Required"),
-    logos: Yup.array().min(1, "Please upload at least one image.").test("fileType", "Only images and PDFs are allowed.", (files) =>
-        !files || files.length === 0
-            ? true
-            : files.every(
-                (file) =>
-                    file.type.startsWith("image/") ||
-                    file.type === "application/pdf"
-            )
-    )
+    logos: Yup.array()
+        .min(1, "Please upload at least one image.").test("fileType", "Only images and PDFs are allowed.", (files) =>
+            !files || files.length === 0
+                ? true
+                : files.every(
+                    (file) =>
+                        file.type.startsWith("image/") ||
+                        file.type === "application/pdf"
+                )
+        )
         .test("fileSize", "Each file must be less than 2MB.", (files) =>
             !files || files.length === 0
                 ? true
@@ -74,6 +75,7 @@ const validationSchema = Yup.object({
 export default function SocialMediaDesignForm() {
 
     const navegate = useNavigate();
+    const [ service , setService] = useState(); 
     const { loader_index, open_loader, close_loader } = useLoader();
     const { domain } = useDomain();
     const [colors] = useState(["#ff0000", "#00ff00", "#0000ff"]);
@@ -82,6 +84,69 @@ export default function SocialMediaDesignForm() {
     const [specificRequests] = useState([""]);
     const [previews, setPreviews] = useState(null);
 
+    const { information } = useInformation();
+        const platforms = [...information?.platforms || []];
+    
+        const platformMap = {
+            linkedin: {
+              icon: <FaLinkedinIn className={style.icon} />,
+              class: style.containerOne,
+            },
+            github: {
+              icon: <FaGithub className={style.icon} />,
+              class: style.containerTwo,
+            },
+            facebook: {
+              icon: <FaFacebookF className={style.icon} />,
+              class: style.containerThree,
+            },
+            tiktok: {
+              icon: <FaTiktok className={style.icon} />,
+              class: style.containerFour,
+            },
+            instagram: {
+              icon: <FaInstagram className={style.icon} />,
+              class: style.containerFive,
+            },
+            whatsapp: {
+              icon: <FaWhatsapp className={style.icon} />,
+              class: style.containerSix,
+              isWhatsApp: true,
+            },
+          };
+
+          useEffect(()=>{
+            let endPoint = '/api/services/kum4k5wui6gw96csqth8r4ob'
+            let url = domain + endPoint;
+            axios.get(url).then((res)=>{
+                setService(res.data.data)
+            })
+        },[])
+
+
+        const handlePlatforms = () => {
+            const activePlatforms = platforms.filter(platforms => platforms.trim() !== "");
+    
+            return activePlatforms.map((el) => {
+                if (el.includes("linkedin.com")) {
+                    return ["linkedin", el];
+                } else if (el.includes("github.com")) {
+                    return ["github", el];
+                } else if (el.includes("facebook.com")) {
+                    return ["facebook", el];
+                } else if (el.includes("tiktok.com")) {
+                    return ["tiktok", el];
+                } else if (el.includes("instagram.com")) {
+                    return ["instagram", el];
+                } else if (!el.includes(".com")) {
+                    return ["whatsapp", el];
+                }
+    
+                return null; // or some default icon/component
+            })
+        }
+
+        
 
     const initialValues = {
         clientName: "",
@@ -104,6 +169,7 @@ export default function SocialMediaDesignForm() {
         typography: [],
     }
 
+
     const getDate = () => {
         const nowDate = moment().add(1, "days").format("L");
         let splitsDate = nowDate.split("/");
@@ -120,49 +186,38 @@ export default function SocialMediaDesignForm() {
             <div id={style.form}>
 
                 <div id={style.left}>
-                    <section id={style.serv} className=" shadow ">
+                    <section id={style.serv} className=" shadow overflow-hidden ">
                         <div >
                             <h1>Order Now</h1>
-                            <h3>Social Media & Marketing Design</h3>
-                            <p>Creating eye-catching and strategy-driven visuals for social media, ads, and promotional content. From Instagram carousels to Facebook ads, I design content that captures attention and drives engagement.</p>
+                            <h3>{service?.service_name}</h3>
+                            <p>{service?.service_description}</p>
                         </div>
 
 
-                        <div className={` ${style.card} `} >
-                            <a className={`${style.socialContainer} ${style.containerOne} `} target='_blank' href='https://www.linkedin.com/in/mohanaddarwish01/'>
-                                <div className={`${style.socialSvg}`}>
-                                    <FaLinkedinIn className={`${style.icon}`} />
-                                </div>
-                            </a>
+                        <div className={` ${style.card} animate__animated animate__backInRight animate__delay-1s animate__slower `} >
 
-                            <a className={`${style.socialContainer} ${style.containerTwo} `} target='_blank' href='https://github.com/MohanadDarwish01'>
-                                <div className={`${style.socialSvg}`}>
-                                    <FaGithub className={`${style.icon}`} />
-                                </div>
-                            </a>
+                            {
+                                handlePlatforms().map((el, index) => {
+                                    const [platform, url] = el;
+                                    const data = platformMap[platform];
 
-                            <a className={`${style.socialContainer} ${style.containerThree} `} target='_blank' href='https://www.facebook.com/profile.php?id=61552527037852'>
-                                <div className={`${style.socialSvg}`}>
-                                    <FaFacebookF className={`${style.icon}`} />
-                                </div>
-                            </a>
+                                    if (!data) return null;
 
-                            <a className={`${style.socialContainer} ${style.containerFour} `} target='_blank' href='https://www.tiktok.com/@mohanaddarwish60?lang=en'>
-                                <div className={`${style.socialSvg}`}>
-                                    <FaTiktok className={`${style.icon}`} />
-                                </div>
-                            </a>
+                                    const href = data.isWhatsApp ? `https://wa.me/${url.replace(/\s+/g, "")}?text=Hello%2C%20I%27m%20interested!` : url;
 
-                            <a className={`${style.socialContainer} ${style.containerFive} `} target='_blank' href='https://www.instagram.com/mohanaddarwish01/'>
-                                <div className={`${style.socialSvg}`}>
-                                    <FaInstagram className={`${style.icon}`} />
-                                </div>
-                            </a>
-                            <a className={`${style.socialContainer} ${style.containerSix} `} target='_blank' href="https://wa.me/201117521556?text=Hello%2C%20I'm%20interested!">
-                                <div className={`${style.socialSvg}`}>
-                                    <FaWhatsapp className={`${style.icon}`} />
-                                </div>
-                            </a>
+                                    return (
+                                        <a
+                                            key={index}
+                                            className={`${style.socialContainer} ${data.class}`}
+                                            target="_blank"
+                                            href={href}
+                                        >
+                                            <div className={style.socialSvg}>{data.icon}</div>
+                                        </a>
+                                    );
+                                })
+
+                            }
                         </div>
                     </section>
 
@@ -189,14 +244,13 @@ export default function SocialMediaDesignForm() {
                                 let uploadedImageIds = [];
 
                                 try {
-                                    const uploadRes = await axios.post("http://localhost:1337/api/upload", formData);
+                                    const uploadRes = await axios.post(domain + '/api/upload', formData);
                                     uploadedImageIds = uploadRes.data.map((file) => file.id);
                                 } catch (err) {
                                     console.error("Upload failed", err);
                                     setSubmitting(false);
                                     return;
                                 }
-
 
                                 let data = {
                                     client_name: values.clientName,
@@ -250,7 +304,7 @@ export default function SocialMediaDesignForm() {
                             }}
                         >
 
-                            {({ values, setFieldValue, errors, handleChange }) => (
+                            {({ values, setFieldValue, errors, handleChange ,  dirty, isValid,  }) => (
                                 <Form className="space-y-4 max-w-3xl mx-auto p-4 ">
 
                                     <div>
@@ -409,55 +463,67 @@ export default function SocialMediaDesignForm() {
                                                                 accept="image/*, application/pdf"
                                                                 multiple
                                                                 onChange={(event) => {
-                                                                    const maxFiles = 8;
-                                                                    const files = Array.from(event.currentTarget.files);
-                                                                    if (files.length > maxFiles) {
-                                                                        Swal.fire({
-                                                                            icon: "warning",
-                                                                            title: "Max File Count",
-                                                                            text: `You can only upload up to ${maxFiles} files.`,
-                                                                            timer: 1500,
-                                                                        })
-                                                                        files.splice(maxFiles);
-                                                                    }
-                                                                    setFieldValue("logos", files);
-                                                                    // render images 
-                                                                    const fileReaders = files.map(el => {
-                                                                        return new Promise(resolve => {
-                                                                            const reader = new FileReader();
-                                                                            reader.onloadend = () => {
-                                                                                resolve(reader.result);
-                                                                            };
-                                                                            reader.readAsDataURL(el);
+                                                                    
+                                                                        const input = event.currentTarget;
+                                                                        const newFiles = Array.from(input.files);
+                                                                        const existingFiles = values.logos || [];
+    
+                                                                        // Filter out duplicates (based on name + size)
+                                                                        const filteredNewFiles = newFiles.filter(
+                                                                            (newFile) => !existingFiles.some(
+                                                                                (existing) => existing.name === newFile.name && existing.size === newFile.size
+                                                                            )
+                                                                        );
+    
+                                                                        // Combine files
+                                                                        const updatedFiles = [...existingFiles, ...filteredNewFiles];
+    
+                                                                        // Set Formik field
+                                                                        setFieldValue("logos", updatedFiles);
+    
+                                                                        // Reset input to allow re-upload of same file
+                                                                        input.value = null;
+    
+                                                                        // Generate previews
+                                                                        const fileReaders = updatedFiles.map((file) => {
+                                                                            return new Promise((resolve) => {
+                                                                                const reader = new FileReader();
+                                                                                reader.onloadend = () => resolve(reader.result);
+                                                                                reader.readAsDataURL(file);
+                                                                            });
                                                                         });
-                                                                    });
-                                                                    Promise.all(fileReaders).then(logos => {
-                                                                        setPreviews(logos);
-                                                                    });
+    
+                                                                        Promise.all(fileReaders).then((previews) => {
+                                                                            setPreviews(previews);
+                                                                        });
+                                                                    
+                                                                    
                                                                 }}
+
                                                             />
                                                         </div>
                                                         {
-                                                            previews && !errors.logos && (
+                                                            previews && (
+                                                                
                                                                 <div className="grid grid-cols-4 md:grid-cols-6 gap-md-4 gap-2 " id={style.selectedArea} >
+                                                                    
                                                                     {previews.map((src, index) => (
                                                                         <div id={style.selectedImg} key={index}>
                                                                             <div className={style.delete}>
                                                                                 <MdOutlineDelete onClick={() => {
-                                                                                    let prev = [...previews];
-                                                                                    prev.splice(index, 1);
-                                                                                    if (previews[1]) {
-                                                                                        setPreviews(prev);
-                                                                                    } else {
-                                                                                        setPreviews(prev);
-                                                                                        setFieldValue("logos", null);
-                                                                                    }
-                                                                                    // Create a copy of Formik's values.refrences
-                                                                                    let back = [...(values.logos || [])];
-                                                                                    back.splice(index, 1);
-                                                                                    setFieldValue("logos", back);
+                                                                                    const updatedPreviews = [...previews];
+                                                                                    const updatedLogos = [...(values.logos || [])];
+
+                                                                                    // Remove the selected index from both
+                                                                                    updatedPreviews.splice(index, 1);
+                                                                                    updatedLogos.splice(index, 1);
+
+                                                                                    // Update both state and formik field
+                                                                                    setPreviews(updatedPreviews);
+                                                                                    setFieldValue("logos", updatedLogos);
                                                                                 }} />
                                                                             </div>
+
                                                                             {
                                                                                 src.includes("image/") ?
                                                                                     <img
@@ -895,7 +961,7 @@ export default function SocialMediaDesignForm() {
                                     {/* ======================================================================================================================== */}
                                     {/* accept */}
 
-                                    <button type="submit" className=" btn btn-warning w-100" >
+                                    <button type="submit" className={`${ !dirty || !isValid ? style.nonSubmit : style.submit } w-100`}  disabled={!dirty || !isValid}>
                                         Submit
                                     </button>
                                 </Form>

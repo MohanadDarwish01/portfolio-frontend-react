@@ -61,7 +61,7 @@
                     padding: 10px 20px;
                     width: 100%;
                     cursor: pointer;
-                    background-color: var(--dark);
+                    background-color: var(--darker);
                     border-radius: 30px;
                     margin-bottom: 1rem;
                     transition: 0.4s ease-in-out;
@@ -116,5 +116,11 @@
         }
 
 
+    }
+
+
+    .render{
+        width: 100%;
+        min-height: 100vh;
     }
 }

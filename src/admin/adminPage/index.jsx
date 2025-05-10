@@ -5,6 +5,8 @@ import logo from '../../assets/honda_logo@2x.png'
 import profile from '../../assets/honda3.png'
 import { TbLogout } from "react-icons/tb";
 import Information from '../tabs/information/Information';
+import Portfolio from '../tabs/portfolio/portfolio';
+import ServicesAdmin from '../tabs/services/services';
 
 export default function AdminPage() {
     const navigate = useNavigate();
@@ -13,6 +15,8 @@ export default function AdminPage() {
         sessionStorage.clear();
         navigate('/login');
     }
+
+    
 
 
     useEffect(() => {
@@ -28,9 +32,9 @@ export default function AdminPage() {
             case 0:
                 return <Information /> 
             case 1:
-                return <h1>user portfolio</h1>
+                return <Portfolio />
             case 2:
-                return <h1>services</h1>
+                return <ServicesAdmin />
             default:
                 return <h1>shop</h1>
         }
@@ -77,7 +81,7 @@ export default function AdminPage() {
 
             </div>
 
-            <div className="w-100">
+            <div className={style.render}>
                 {renderContent()}
 
             </div>

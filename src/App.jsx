@@ -10,6 +10,7 @@ import SocialMediaDesignForm from "./components/forms/SocialMediaDesignForm";
 import Login from "./admin/loginPage";
 import AdminPage from "./admin/adminPage";
 import Loader from "./components/loader";
+import UiUxDesignForm from "./components/forms/UiUxDesignForm";
 // import LoginPage from "./admin/loginPage";
 
 
@@ -29,7 +30,7 @@ export default function App() {
   useEffect(() => {
 
     open_loader();
-    let url = domain + "/api/categories"
+    let url = domain + "/api/categories?sort=createdAt:desc"
     axios.get(url, {
       params: {
         populate: "*",
@@ -48,7 +49,7 @@ export default function App() {
     let projectName = location.pathname.split('/')[3];
     if (projectName && projectName != 0) {
       setActiveProjectId(projectName)
-      let endPoint = `/api/projects/${projectName}`;
+      let endPoint = `/api/projects/${projectName}?sort=createdAt:desc`;
       let url2 = domain + endPoint;
       axios.get(url2, {
         params: {
@@ -64,7 +65,7 @@ export default function App() {
 
     let url2 = domain + "/api/user-informations";
     setTimeout(() => {
-      
+
       axios.get(url2, { params: { populate: "*" } }).then((res) => {
         setInformation(res.data.data[0]);
       })
@@ -81,14 +82,14 @@ export default function App() {
 
   return (
     <div className=" position-relative">
-      {loader_index && <div className="main_loader w-100 h-100"><Loader /></div> }
+      {loader_index && <div className="main_loader w-100 h-100"><Loader /></div>}
       <Routes >
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/about" element={<HomePage />} />
         <Route path="/services" element={<HomePage />} />
         <Route path="/services/marketing-design" element={<SocialMediaDesignForm />} />
-
+        <Route path="/services/ui-ux-design" element={<UiUxDesignForm />} />
         <Route path="/portfolio" element={<HomePage />} />
         {
           categories.map((el, index) => (
@@ -105,8 +106,11 @@ export default function App() {
 
         }
 
-        <Route path="/contact" element={<HomePage />} />
         <Route path="/admin" element={<AdminPage />} />
+        
+        
+
+        <Route path="/contact" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

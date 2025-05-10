@@ -1,0 +1,987 @@
+#section {
+    width: 100%;
+
+    /* height: 100%; */
+    /* position: relative; */
+
+
+    .loader {
+        div {
+            border-radius: 0 0 20px 20px;
+        }
+    }
+
+}
+
+
+
+
+/* images fields */
+#imgsForm {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 20px;
+}
+
+.uploadField {
+    width: 100%;
+    height: 120px;
+    background-color: var(--dark);
+    border-radius: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 20px;
+    position: relative;
+    margin-bottom: 20px;
+
+    div {
+        width: 80px;
+        height: 80px;
+        overflow: hidden;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+
+        button {
+            background-color: var(--dark);
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            background-color: var(--darker);
+        }
+
+        .deleteIcon {
+            position: absolute;
+
+        }
+
+        .addIcon {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            object-fit: cover;
+            background-color: var(--darker);
+            position: static;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        .pdfIcon {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            object-fit: cover;
+            background-color: var(--darker);
+            position: static;
+            color: var(--yellow);
+        }
+    }
+
+    .uploadIcon {
+        position: absolute;
+        right: 20px;
+        font-size: 40px;
+        color: var(--dark);
+        background-color: var(--darker);
+        border-radius: 50%;
+        outline: 2px solid var(--dark);
+        transition: 0.4 ease-in-out;
+
+
+
+        &:hover {
+            background-color: var(--midDark);
+        }
+    }
+
+    input {
+        height: 40px;
+        width: 40px;
+        background-color: var(--dark);
+        border-radius: 20px;
+    }
+
+}
+
+
+
+.error {
+    color: var(--white);
+    position: absolute;
+    right: 60px;
+    top: 32px;
+    font-size: 10px;
+    background-color: red;
+    border-radius: 8px;
+    padding: 1px 10px;
+
+}
+
+/* ======================================================================= */
+
+#textForm {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 40px;
+
+    /* .left {
+        padding-right: 30px;
+        border-right: 1px solid #ffffff36;
+    } */
+}
+
+.textInputWrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.textInput {
+    width: 100%;
+    padding: 1em;
+    font-size: 1em;
+    border: 0.1em solid grey;
+    border-radius: 2em;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px var(--dark) inset !important;
+        -webkit-text-fill-color: #eee !important;
+    }
+
+
+}
+
+.textInput::placeholder {
+    color: grey;
+    transition: all 0.3s ease;
+}
+
+.textInput:focus {
+    border-color: white;
+}
+
+.textInput:focus::placeholder {
+    color: transparent;
+}
+
+
+.textLabel {
+    position: absolute;
+    left: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: grey;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+
+.textInput:focus+.textLabel,
+.textInput:not(:placeholder-shown)+.textLabel {
+    top: 0.1em;
+    left: 1em;
+    font-size: 0.8em;
+    color: white;
+    background-color: var(--midDark);
+    padding: 0 0.5em;
+}
+
+.textInput:not(:focus):not(:placeholder-shown)+.textLabel {
+    color: grey;
+}
+
+
+.textError {
+    color: var(--white);
+    position: absolute;
+    right: 40px;
+    top: -8px;
+    font-size: 10px;
+    background-color: red;
+    border-radius: 8px;
+    padding: 1px 10px;
+
+}
+
+/* multi input */
+.multiTextWrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    color: var(--white);
+
+    label {
+
+
+        .titles {
+            width: 100%;
+            /* display: flex;
+            flex-wrap: wrap; */
+            /* max-height: 200px; */
+            padding: 10px 0;
+            font-size: 14px;
+            position: relative;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                width: 0;
+            }
+
+
+
+            button {
+
+                .add {
+                    font-size: 30px;
+                    color: var(--gray);
+
+                    &:hover {
+                        color: var(--darker);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.fonts {
+    width: 100%;
+    max-height: 500px;
+    font-size: 14px;
+    position: relative;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+
+
+
+    button {
+
+        .add {
+            font-size: 30px;
+        }
+    }
+}
+
+
+
+.areaInputWrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+
+    textarea {
+        height: auto;
+        min-height: 200px;
+
+        label {
+            top: 20px;
+        }
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+
+
+    }
+
+    label {
+        top: 30px;
+    }
+}
+
+
+.submit {
+    width: 200px;
+    height: 50px;
+    background-color: var(--yellow);
+    color: var(--darker);
+    border-radius: 10px;
+    transition: 0.5s ease-in-out;
+    position: absolute;
+    bottom: 50px;
+
+    &:hover {
+        background-color: #9a9e47;
+    }
+}
+
+
+.nonSubmit {
+    width: 200px;
+    height: 50px;
+    background-color: var(--dark);
+    color: var(--gray);
+    border-radius: 10px;
+    transition: 0.5s ease-in-out;
+    position: absolute;
+    bottom: 50px;
+
+}
+
+
+.reset {
+    width: 200px;
+    height: 50px;
+    background-color: var(--darker);
+    color: var(--white);
+    border-radius: 10px;
+    position: absolute;
+    bottom: 50px;
+
+    transition: 0.5s ease-in-out;
+
+    &:hover {
+        background-color: #181817;
+    }
+}
+
+
+/* ========================================================= */
+/* radioooo */
+
+.radio_button_container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    margin-top: 30px;
+}
+
+.radio_button {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.radio_button__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio_button__label {
+    display: inline-block;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 15px;
+    color: #f2f2f2;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: capitalize;
+    transition: all 0.3s ease;
+}
+
+.radio_button__custom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #555;
+    transition: all 0.3s ease;
+}
+
+.radio_button__input:checked+.radio_button__label .radio_button__custom {
+    background-color: var(--yellow);
+    border-color: transparent;
+    transform: scale(0.8);
+    box-shadow: 0 0 20px var(--yellow);
+}
+
+.radio_button__input:checked+.radio_button__label {
+    color: var(--yellow);
+}
+
+.radio_button__label:hover .radio_button__custom {
+    transform: scale(1.2);
+    border-color: var(--yellow);
+    box-shadow: 0 0 20px var(--yellow);
+}
+
+
+
+/* clents */
+
+#clients {
+
+    /* height: calc(100% - 100px); */
+
+    h1 {
+        font-size: 24px;
+        color: var(--gray);
+
+    }
+
+    .buttons {
+
+        position: relative;
+        bottom: 63px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* background-color: var(--midDark); */
+        padding: 20px 10px;
+        /* outline: 5px solid var(--midDark); */
+        z-index: 1;
+        flex-direction: row-reverse;
+
+
+
+
+
+        button {
+
+            width: 200px;
+            height: 40px;
+            background-color: var(--yellow);
+            color: var(--darker);
+            border-radius: 10px;
+            transition: 0.5s ease-in-out;
+
+
+            &:hover {
+                background-color: #9a9e47;
+            }
+        }
+    }
+
+    .tableContainer {
+        max-height: calc(100% - 100px);
+        overflow-y: scroll;
+        margin-top: -65px;
+
+        #filter {
+            background-color: var(--darker);
+            margin-bottom: 10px;
+            border-radius: 20px;
+            display: flex;
+            flex-wrap: wrap ;
+            /* gap: 30px; */
+            padding: 0 30px 20px 30px;
+
+            label {
+                margin: 0;
+                padding-right: 20px;
+                margin-top: 20px;
+                font-size: 12px;
+            }
+        }
+
+        &::-webkit-scrollbar {
+            width: 0;
+        }
+
+        table {
+            color: var(--white);
+            width: 100%;
+            background-color: var(--darker);
+            border-radius: 15px;
+            overflow: hidden;
+            font-size: 12px;
+
+            thead {
+                tr {
+                    background-color: var(--darker);
+                    color: var(--gray);
+                    border-bottom: 2px solid var(--yellow);
+
+                    th {
+                        padding: 20px;
+                    }
+                }
+            }
+
+            tbody {
+
+                tr {
+                    color: var(--gray);
+                    transition: 0.5s ease-in-out;
+                    background-color: var(--darker);
+
+                    &:hover {
+
+                        background-color: var(--midDark);
+                    }
+
+
+                    td {
+                        min-width: 40px;
+                        padding: 30px 10px 20px 10px;
+
+
+                        .img {
+                            min-width: 50px;
+                            height: 50px;
+                            width: 50px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            margin-right: 10px;
+                            background-color: var(--dark);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+
+                            .avatar {
+                                width: 60%;
+                                height: 60%;
+                                color: var(--yellow);
+                                object-fit: cover;
+                            }
+                        }
+
+                        .imges {
+                            margin-top: 10px;
+                            min-width: 30px;
+                            height: 30px;
+                            width: 30px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            margin-right: 10px;
+                            background-color: var(--dark);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+
+
+                        }
+
+
+                        ul {
+                            list-style: square;
+                        }
+
+                        .actions {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 20px;
+                            width: 100%;
+
+
+
+                            svg {
+                                color: var(--yellow);
+                                cursor: pointer;
+                                transform: scale(1);
+                                font-size: 16px;
+
+                                &:hover {
+                                    transform: scale(1.2);
+                                }
+                            }
+
+
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
+
+}
+
+#createClient {
+    background-color: var(--midDark);
+    padding: 50px 20px 20px 20px;
+    border-radius: 30px;
+    max-height: 80vh;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--gray);
+        border-radius: 3px;
+        
+
+
+    }
+
+    .closeIcon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: var(--darker);
+        font-size: 50px;
+
+
+        &:hover {
+            color: var(--gray);
+        }
+    }
+
+    h2 {
+        color: var(--white);
+        text-align: center;
+    }
+
+    .addClient {
+        width: 100%;
+        height: 50px;
+        background-color: var(--yellow);
+        color: var(--darker);
+        border-radius: 10px;
+        transition: 0.5s ease-in-out;
+        /* position: absolute;
+        bottom: 50px; */
+
+        &:hover {
+            background-color: #9a9e47;
+        }
+    }
+
+    .addClientDisable {
+        width: 100%;
+        height: 50px;
+        background-color: var(--dark);
+        color: var(--gray);
+        border-radius: 10px;
+        transition: 0.5s ease-in-out;
+        /* position: absolute;
+        bottom: 50px; */
+
+
+    }
+}
+
+
+
+
+
+/* upload */
+
+/* From Uiverse.io by Yaya12085 */
+
+.textColorWrapper {
+    color: var(--white);
+
+    #uploadArea {
+
+
+        width: 100%;
+        background-color: var(--midDark);
+        /* padding: 20px; */
+        border-radius: 30px;
+
+
+        .custum_file_upload {
+            height: 200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: space-between;
+            gap: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--yellow);
+            background-color: var(--dark);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+
+
+            .icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+
+                svg {
+                    font-size: 70px;
+                    fill: var(--yellow);
+                }
+            }
+
+
+            .text {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+
+                span {
+                    font-weight: 400;
+                    color: var(--yellow);
+                }
+            }
+
+            input {
+                display: none;
+            }
+        }
+
+
+        #selectedArea {
+            padding-top: 20px;
+
+            #selectedImg {
+
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+
+                &:hover img {
+                    filter: brightness(0.2);
+                    cursor: pointer;
+
+                }
+
+                &:hover .pdf {
+                    filter: brightness(0.2);
+                    cursor: pointer;
+
+                }
+
+                &:hover .err {
+                    filter: brightness(0.2);
+                    cursor: pointer;
+
+                }
+
+                &:hover .delete svg {
+
+                    opacity: 1;
+                }
+
+
+                img {
+
+                    background-color: var(--white);
+                    width: 100%;
+                    aspect-ratio: 1 / 1;
+                    transition: 0.2s ease-in-out;
+
+
+                }
+
+
+                .pdf {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: var(--yellow);
+                    border-radius: 0.375rem;
+                    aspect-ratio: 1 / 1;
+
+                    svg {
+                        font-size: 50px;
+                        color: var(--dark);
+
+                    }
+                }
+
+                .err {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: var(--yellow);
+                    border-radius: 0.375rem;
+                    aspect-ratio: 1 / 1;
+
+                    svg {
+                        font-size: 50px;
+                        color: red;
+
+                    }
+                }
+
+                .delete {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: absolute;
+                    top: 0;
+
+                    svg {
+                        z-index: 3;
+                        cursor: pointer;
+                        font-size: 30px;
+                        opacity: 0;
+                    }
+                }
+
+            }
+        }
+
+
+    }
+}
+
+
+/* select */
+
+.textListWrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+
+}
+
+
+.selectInput {
+    width: 100%;
+    padding: 1em;
+    font-size: 1em;
+    border: 0.1em solid grey;
+    border-radius: 2em;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23eee" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    cursor: pointer;
+
+    option {
+        background-color: var(--dark);
+        width: 100%;
+
+    }
+
+
+
+
+}
+
+.selectInput::placeholder {
+    color: grey;
+    transition: all 0.3s ease;
+}
+
+.selectInput:focus {
+    border-color: white;
+}
+
+.selectInput:focus::placeholder {
+    color: transparent;
+}
+
+.selectLabel {
+    position: absolute;
+    left: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: grey;
+    pointer-events: none;
+    transition: all 0.3s ease;
+
+
+}
+
+.selectInput:focus+.selectLabel,
+.selectInput:not(:placeholder-shown)+.selectLabel {
+    top: 0.1em;
+    left: 1em;
+    font-size: 0.8em;
+    color: white;
+    background-color: var(--midDark);
+    padding: 0 0.5em;
+}
+
+.selectInput:not(:focus):not(:placeholder-shown)+.selectLabel {
+    color: grey;
+}
+
+.errorsImgs{
+    color: var(--white);
+    position: absolute;
+    right: 30px;
+    top: 8px;
+    font-size: 10px;
+    background-color: red;
+    border-radius: 8px;
+    padding: 1px 10px;
+}
+
+
+
+
+
+
+
+
+
+/* view modal */
+/* #bigSlider{
+    height: 50vh;
+    width: 100%;
+
+    .bigSlider{
+        height: 100% !important;
+
+        .swiper {
+            height: 100% !important;
+        }
+    }
+}
+
+smallSlider{
+    height: 20vh;
+    width: 100%;
+
+    .smallSlider{
+        height: 100% !important; 
+
+        .swiper {
+            height: 100% !important;
+        }
+    }
+} */
+
+

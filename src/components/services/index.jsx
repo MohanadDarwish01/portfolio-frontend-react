@@ -1,5 +1,4 @@
 import style from './index.module.css';
-import uiIcon from '../../assets/services/ui-ux-design.png'
 import { Element } from 'react-scroll';
 import { useEffect, useState } from 'react';
 import Aos from 'aos';
@@ -22,10 +21,11 @@ export default function Services() {
         axios.get(url, {
             params:
             {
-                populate: "*"
+                populate: "*",
+                'filters[active][$eq]': true,
             }
         }).then((res) => {
-            console.log(res.data.data)
+            // console.log(res.data.data)
             setServices(res.data.data);
         })
 
@@ -53,7 +53,7 @@ export default function Services() {
                                     </div>
                                     <h2>{el.service_name}</h2>
                                     <p>
-                                        {el.service_description}
+                                        {el.service_description.slice(0, 100) + "....."}
                                     </p>
                                 </div>
                             </div>

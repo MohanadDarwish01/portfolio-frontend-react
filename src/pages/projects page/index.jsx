@@ -20,6 +20,8 @@ export default function ProjectsPage() {
     const [allProjects, setAllProjects] = useState({});
 
     useEffect(() => {
+
+
         if (acceptedrRoutes.includes(location.pathname)) {
             let catName = location.pathname.split('/')[2];
             let activeCat = data.find((el) => (el.category_path == catName));
@@ -28,13 +30,25 @@ export default function ProjectsPage() {
             let url = domain + endPoint;
             open_loader();
 
-            axios.get(url, {
-                params: {
-                    populate: {
-                        projects: { populate: "*" }
-                    }
+            axios.get(url
+                , {
+                    params: {
+                        populate: {
+                            projects: {
+                                populate: {
+                                    project_images: {
+                                        sort: ['name:asc'],
+                                        
+                                    },
+                                    project_cover: true,
+                                },
+                                
+
+                            },
+                        },
+                    },
                 }
-            }).then((res) => {
+            ).then((res) => {
 
                 setAllProjects(res.data.data);
                 setTimeout(() => {
@@ -50,7 +64,7 @@ export default function ProjectsPage() {
 
     }, [location.pathname])
 
-   
+
 
     const handleModal = (id) => {
         navegate(location.pathname + "/" + id)
@@ -62,7 +76,7 @@ export default function ProjectsPage() {
 
 
 
-       
+
 
     }
 
@@ -92,7 +106,7 @@ export default function ProjectsPage() {
                                     {loader_index && <Loader />}
                                     <div id={style.frame}>
                                         <img id={style.icon} src={icon} alt="" />
-                                        <img id={style.catBG} src={domain + el.project_cover.url} alt="" />
+                                        <img id={style.catBG} src={domain + el.project_cover?.url} alt="" />
                                     </div>
                                     <div id={style.info}>
                                         <h2>{el.project_name}</h2>

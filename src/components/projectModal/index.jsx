@@ -12,71 +12,82 @@ import Loader from "../loader";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ProjectModal({ images }) {
-    const { close_loader, loader_index, open_loader } = useLoader();
-    const { domain } = useDomain();
-    const navegate = useNavigate();
-    const location = useLocation()
-    const {closeProjectModal} = useProjectModal();
-
-    const sortArrayOfObjectsByCommonValue = (arr, valueKey) => {
-        if(arr){
-            return arr.sort((a, b) => {
-                if (a[valueKey] < b[valueKey]) return -1;
-                if (a[valueKey] > b[valueKey]) return 1;
-                return 0;
-            });
-        }
-        
-    }
-    const sortedArray = sortArrayOfObjectsByCommonValue(images, 'name');
-    const handleLoader = () => {
-        open_loader();
-        setTimeout(() => {
-            close_loader();
-        }, 1200);
-
-    }
-
-    useEffect(() => {
-        handleLoader()
-    }, [])
+  const { close_loader, loader_index, open_loader } = useLoader();
+  const { domain } = useDomain();
+  const navegate = useNavigate();
+  const location = useLocation()
+  const { closeProjectModal } = useProjectModal();
 
 
-    const closeProject = () => {
-        navegate( "/" + location.pathname.split('/')[1] + "/" + location.pathname.split('/')[2]);
-        closeProjectModal();
-    }
+  // const sortedArray = images?.sort((a, b) => a.name.localeCompare(b.src));
+  
 
-    return (
-        <div id={style.modal} onClick={() => { closeProject() }}>
+  const sortedArray = [...images].sort((a, b) => {
+    const getNum = name => parseInt(name.match(/\d+/)?.[0] || 0);
+    return getNum(a.name) - getNum(b.name);
+  });
+  console.log(sortedArray)
 
-            <div className=" d-flex flex-column align-items-center  w-100 gap-3 position-relative">
-                <div className=" w-100 " onClick={(e) => { e.stopPropagation() }} >
+  const handleLoader = () => {
+    open_loader();
+    setTimeout(() => {
+      close_loader();
+    }, 1200);
 
-                    <div id={style.swiperPro} className=" position-relative">
-                        {
-                        
-                        loader_index ? <Loader className=" position-absolute" /> :
-                        sortedArray && sortedArray.map((el) => (
+  }
 
-                            <div key={el.documentId} className={style.slideStyle}>
-                                <img src={domain + el.url} />
-                            </div>
-                        ))
-                        
-                        }
+  useEffect(() => {
+    handleLoader()
+    
+  }, [])
 
-                       
-
-                    </div>
-                    <button onClick={() => { closeProject() }} id={style.closeBtn} ><IoClose className={style.close} />
-                    </button>
-                </div>
-
-            </div>
+  
 
 
+  const closeProject = () => {
+    navegate("/" + location.pathname.split('/')[1] + "/" + location.pathname.split('/')[2]);
+    closeProjectModal();
+  }
+
+  return (
+    <div id={style.modal} onClick={() => { closeProject() }}>
+
+      <div className=" d-flex flex-column align-items-center  w-100 gap-3 position-relative">
+        <div className=" w-100 " onClick={(e) => { e.stopPropagation() }} >
+
+          <div id={style.swiperPro} className=" position-relative">
+            {
+
+              loader_index ? <Loader className=" position-absolute" /> :
+                sortedArray && sortedArray.map((el) => (
+
+                  <div key={el.documentId} className={style.slideStyle}>
+                    <img src={domain + el.url} />
+                  </div>
+                ))
+
+            }
+
+
+
+          </div>
+          <button onClick={() => { closeProject() }} id={style.closeBtn} ><IoClose className={style.close} />
+          </button>
         </div>
 
-    );
+      </div>
+
+
+    </div>
+
+  );
 }
+
+
+
+
+
+
+
+
+

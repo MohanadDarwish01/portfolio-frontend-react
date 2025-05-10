@@ -68,7 +68,7 @@ export default function HeroSection() {
 
         <Element name='home' id='home' className='overflow-hidden' >
             <div id={style.heroContent} >
-                {/* {console.log(platforms)} */}
+
                 <div className=' position-relative container '>
                     <div className=' text-center d-flex flex-column align-items-center '>
                         <div id={style.designerImg}>

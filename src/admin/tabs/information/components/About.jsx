@@ -5,25 +5,26 @@ import axios from 'axios';
 import { GrUploadOption } from "react-icons/gr";
 import { useRef, useState } from 'react';
 import { MdOutlineAddPhotoAlternate } from 'react-icons/md';
-import { FaFilePdf } from 'react-icons/fa6';
 import { IoAddCircleSharp } from 'react-icons/io5';
 import { RiResetLeftLine } from 'react-icons/ri';
-import { useDomain, useLoader } from '../../../../store';
+import { useDomain, useInformation } from '../../../../store';
 import Swal from 'sweetalert2';
-import Loader from '../../../../components/loader';
 import moment from 'moment';
 
 
 const validationSchema = Yup.object({
     aboutImg: Yup.mixed()
-        .test("fileSize", "File too large. Max size is 2MB", value =>
-            value ? value.size <= 2 * 1024 * 1024 : false
-        )
-        .test(
-            'fileFormat',
-            'Unsupported Format',
-            value => value && ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type)
-        ).required('A file is required'),
+        .test("fileSize", "File too large. Max size is 2MB", value => {
+            if (!value) return false;
+            if (typeof value === 'number') return true; 
+            return value.size <= 2 * 1024 * 1024;
+        })
+        .test('fileFormat', 'Unsupported Format', value => {
+            if (!value) return false;
+            if (typeof value === 'number') return true; 
+            return ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type);
+        })
+        .required('A file is required'),
     longDescription: Yup.array()
         .of(Yup.string().required('A file is required')),
     birthDate: Yup.date().required("Required"),
@@ -37,25 +38,21 @@ const validationSchema = Yup.object({
 
 
 export default function About() {
-
+    const { information } = useInformation();
     const { domain } = useDomain();
     const [imageInfo, setImageInfo] = useState(null);
     const [description] = useState([""]);
     const imageRef = useRef();
-    // const [infoData] = useState(["", "", "", "", "", ""]);
-    const { loader_index, open_loader, close_loader } = useLoader();
 
     const initialValues = {
-        aboutImg: null,
-        longDescription: [...description],
-        birthDate: "",
-        phone: "",
-        email: "",
-        country: "",
-        freelance: "",
+        aboutImg: information?.about_image?.id || null,
+        longDescription: information?.long_description || [...description],
+        birthDate: information?.birth_date || "",
+        phone: information?.phone || "",
+        email: information?.email || "",
+        country: information?.country || "",
+        freelance: information?.freelance_state || "",
     }
-
-
 
 
     const getDate = () => {
@@ -68,94 +65,85 @@ export default function About() {
 
     return (
         <div id={style.section}>
-            {/* {loader_index && <div className={style.loader}><Loader /></div>} */}
             <Formik
-
+                enableReinitialize={true}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
+
                 onSubmit={async (values, { setSubmitting }) => {
-                    open_loader();
+
                     setSubmitting(true);
-                    console.log(values)
-                    const formData = new FormData();
-                    let uploaded;
-
-                    if (values.aboutImg) {
-                        formData.append('files', values.aboutImg); // ✅ key is "files"
-                    }
-
                     try {
-                        const response = await fetch('http://localhost:1337/api/upload', {
-                            method: 'POST',
-                            body: formData,
-                        });
+                        let uploaded = null;
+                        const formData = new FormData();
+                        formData.append('files', values.aboutImg);
 
-                        const result = await response.json();
-                        console.log('Uploaded file:', result);
+                        if(values.aboutImg && values.aboutImg instanceof File){
+                        try {
+                            const uploadResponse = await axios.post(`${domain}/api/upload`, formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data',
+                                }
+                            });
 
-                        uploaded = result; // ✅ now valid
+                            uploaded = uploadResponse.data;
+                            console.log('Uploaded file:', uploaded);
+                        } catch (uploadError) {
+                            console.error('Upload failed:', uploadError.response?.data || uploadError.message);
+                            throw new Error('File upload failed');
+                        }
 
+                    }
+                        const data = {
+                            about_image: uploaded?.[0]?.id || information?.about_image?.id || null,
+                            long_description: values.longDescription,
+                            birth_date: values.birthDate,
+                            phone: values.phone,
+                            email: values.email,
+                            country: values.country,
+                            freelance_state: values.freelance,
+                        };
+
+                        try {
+                            const response = await axios.put(
+                                `${domain}/api/user-informations/epefy7x35ocbnfqlk48uo1l1`,
+                                { data },
+                                {
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    }
+                                }
+                            );
+
+                            console.log('Success:', response.data);
+                        }
+                        catch (submitError) {
+                            console.error('Submission failed:', submitError.response?.data || submitError.message);
+                            throw new Error('Form submission failed');
+                        }
                     } catch (err) {
-                        console.error('Upload error:', err);
+                        console.error('Error:', err);
                     }
 
+                    setSubmitting(false);
+                    
+                    Swal.fire({
+                        icon: "success",
+                        text: "Submit Success",
+                        timer: 1500
+                    })
+                    window.location.reload();
 
-
-
-                    let data = {
-                        about_image: uploaded[0]?.id,
-                        long_description: values.longDescription,
-                        birth_date: values.birthDate,
-                        phone: values.phone,
-                        email: values.email,
-                        country: values.country,
-                        freelance_state: values.freelance,
-
-                    }
-
-
-
-
-                    setTimeout(() => {
-
-
-                        let endPoint = "/api/user-informations/";
-                        let url = domain + endPoint;
-
-                        axios.put(url + "epefy7x35ocbnfqlk48uo1l1", {
-                            data: data,
-                        })
-                            .then((res) => {
-                                console.log('Updated record:', res.data);
-                            })
-                            .catch((err) => {
-                                console.error('Error updating record:', err);
-                            })
-
-
-                        setSubmitting(false);
-                        Swal.fire({
-                            icon: "success",
-                            text: "Submit Success",
-                            timer: 1500
-
-                        })
-                        // navegate('/services')
-                        close_loader();
-
-                    }, 500);
                 }}
-
             >
 
-                {({ values, setFieldValue, errors, handleChange, touched }) => (
+                {({ values, setFieldValue, errors, handleChange, touched , dirty, isValid }) => (
                     <Form className=' p-3 d-flex flex-column justify-content-between h-100' >
 
 
                         <div>
 
                             <div id={style.textForm}>
-
 
 
                                 <div>
@@ -166,10 +154,13 @@ export default function About() {
 
                                                 <div>
                                                     {
-                                                        imageInfo ?
+                                                        imageInfo ? (
                                                             <img src={URL.createObjectURL(imageInfo)} alt="" />
-                                                            :
+                                                        ) : information.about_image ? (
+                                                            <img src={domain + information.about_image.url} alt="" />
+                                                        ) : (
                                                             <MdOutlineAddPhotoAlternate className={style.addIcon} />
+                                                        )
                                                     }
                                                 </div>
 
@@ -185,7 +176,7 @@ export default function About() {
                                                             const file = event.currentTarget.files[0];
                                                             setImageInfo(file);
                                                             setFieldValue("aboutImg", file)
-                                                            console.log(values.aboutImg)
+                                                            console.log(file)
 
                                                         }}
                                                     />
@@ -313,12 +304,10 @@ export default function About() {
                         </div>
                         <div className=' w-100 d-flex flex-row-reverse gap-3'>
 
-                            <button type="submit" className={style.submit} >
+                            <button type="submit" className={` ${!dirty || !isValid ? style.nonSubmit : style.submit}`} disabled={!dirty || !isValid} >
                                 Save
                             </button>
-                            {/* <button type="submit" className={style.reset} >
-                                Reset
-                            </button> */}
+                           
                         </div>
 
 

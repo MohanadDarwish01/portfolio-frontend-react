@@ -5,51 +5,94 @@ import React from "react";
 import { FaLinkedinIn, FaFacebookF, FaGithub, FaTiktok, FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 import { Typewriter } from 'react-simple-typewriter';
 import { Element } from 'react-scroll';
+import { useDomain, useInformation } from '../../store';
 
 
 export default function Footer() {
+
+  const { information } = useInformation();
+      const { domain } = useDomain();
+      const platforms = [...information?.platforms || []];
+  
+      const platformMap = {
+          linkedin: {
+            icon: <FaLinkedinIn className={style.icon} />,
+            class: style.containerOne,
+          },
+          github: {
+            icon: <FaGithub className={style.icon} />,
+            class: style.containerTwo,
+          },
+          facebook: {
+            icon: <FaFacebookF className={style.icon} />,
+            class: style.containerThree,
+          },
+          tiktok: {
+            icon: <FaTiktok className={style.icon} />,
+            class: style.containerFour,
+          },
+          instagram: {
+            icon: <FaInstagram className={style.icon} />,
+            class: style.containerFive,
+          },
+          whatsapp: {
+            icon: <FaWhatsapp className={style.icon} />,
+            class: style.containerSix,
+            isWhatsApp: true,
+          },
+        };
+      const handlePlatforms = () => {
+          const activePlatforms = platforms.filter(platforms => platforms.trim() !== "");
+  
+          return activePlatforms.map((el) => {
+              if (el.includes("linkedin.com")) {
+                  return ["linkedin", el];
+              } else if (el.includes("github.com")) {
+                  return ["github", el];
+              } else if (el.includes("facebook.com")) {
+                  return ["facebook", el];
+              } else if (el.includes("tiktok.com")) {
+                  return ["tiktok", el];
+              } else if (el.includes("instagram.com")) {
+                  return ["instagram", el];
+              } else if (!el.includes(".com")) {
+                  return ["whatsapp", el];
+              }
+  
+              return null; // or some default icon/component
+          })
+      }
   return (
 
-    <div id={style.footerContent} >
+    <div id={style.footerContent} className='overflow-hidden'>
 
       <div className=' position-relative container '>
         <div className=' text-center d-flex flex-column align-items-center'>
 
-          <div className={style.card}>
-            <a className={`${style.socialContainer} ${style.containerOne}`} target='_blank' href='https://www.linkedin.com/in/mohanaddarwish01/'>
-              <div className={`${style.socialSvg}`}>
-                <FaLinkedinIn className={`${style.icon}`} />
-              </div>
-            </a>
+          <div className={` ${style.card} animate__animated animate__backInRight animate__delay-1s animate__slower `} >
 
-            <a className={`${style.socialContainer} ${style.containerTwo}`} target='_blank' href='https://github.com/MohanadDarwish01'>
-              <div className={`${style.socialSvg}`}>
-                <FaGithub className={`${style.icon}`} />
-              </div>
-            </a>
+            {
+              handlePlatforms().map((el, index) => {
+                const [platform, url] = el;
+                const data = platformMap[platform];
 
-            <a className={`${style.socialContainer} ${style.containerThree}`} target='_blank' href='https://www.facebook.com/profile.php?id=61552527037852'>
-              <div className={`${style.socialSvg}`}>
-                <FaFacebookF className={`${style.icon}`} />
-              </div>
-            </a>
+                if (!data) return null;
 
-            <a className={`${style.socialContainer} ${style.containerFour}`} target='_blank' href='https://www.tiktok.com/@mohanaddarwish60?lang=en'>
-              <div className={`${style.socialSvg}`}>
-                <FaTiktok className={`${style.icon}`} />
-              </div>
-            </a>
+                const href = data.isWhatsApp ? `https://wa.me/${url.replace(/\s+/g, "")}?text=Hello%2C%20I%27m%20interested!` : url;
 
-            <a className={`${style.socialContainer} ${style.containerFive}`} target='_blank' href='https://www.instagram.com/mohanaddarwish01/'>
-              <div className={`${style.socialSvg}`}>
-                <FaInstagram className={`${style.icon}`} />
-              </div>
-            </a>
-            <a className={`${style.socialContainer} ${style.containerSix}`} target='_blank' href="https://wa.me/201117521556?text=Hello%2C%20I'm%20interested!">
-              <div className={`${style.socialSvg}`}>
-                <FaWhatsapp className={`${style.icon}`} />
-              </div>
-            </a>
+                return (
+                  <a
+                    key={index}
+                    className={`${style.socialContainer} ${data.class}`}
+                    target="_blank"
+                    href={href}
+                  >
+                    <div className={style.socialSvg}>{data.icon}</div>
+                  </a>
+                );
+              })
+
+            }
           </div>
 
 

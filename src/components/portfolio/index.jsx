@@ -39,11 +39,12 @@ export default function Portfolio() {
 
 
 
-                <div id={style.content} className=' d-flex justify-content-between container '>
+                <div id={style.content} className=' container '>
 
 
                     {
-                        data && data.map((el) => (
+                        data && data.map((el ) => (
+                            
                             <div key={el.documentId} id={style.card} className=' d-flex flex-column'  onClick={() => { openCategory(el.category_path,el.documentId) }} data-aos="flip-down" data-aos-delay="300"  >
                                 <div id={style.frame}>
                                     <img id={style.icon} src={icon} alt="" />
@@ -58,6 +59,7 @@ export default function Portfolio() {
                                     </p>
                                 </div>
                             </div>
+                            
                         ))
                     }
 
